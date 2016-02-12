@@ -17,8 +17,8 @@ _Automatically deploy the code using PHP and Git._
 ## Usage
 
  * Configure the script and put it somewhere that's accessible from the
-   Internet. The preferred way to configure it is to use `deploy-config.php` file.
-   Rename `deploy-config.example.php` to `deploy-config.php` and edit the
+   Internet. The preferred way to configure it is to use `exampleproject-config.php` file.
+   Rename `exampleproject-config.php` to `myproject-config.php` and edit the
    configuration options there. That way, you won't have to edit the configuration
    again if you download the new version of `deploy.php`.
  * Configure your git repository to call this script when the code is updated.
@@ -31,7 +31,7 @@ _Automatically deploy the code using PHP and Git._
     SSH key.
  1. Go to `https://github.com/USERNAME/REPOSITORY/settings/hooks`.
  1. Click **Add webhook** in the **Webhooks** panel.
- 1. Enter the **Payload URL** for your deployment script e.g. `http://example.com/deploy.php?sat=YourSecretAccessTokenFromDeployFile`.
+ 1. Enter the **Payload URL** for your deployment script e.g. `http://deployer.example.com/?project=myproject&sat=YourSecretAccessTokenFromDeployFile`.
  1. _Optional_ Choose which events should trigger the deployment.
  1. Make sure that the **Active** checkbox is checked.
  1. Click **Add webhook**.
@@ -43,7 +43,7 @@ _Automatically deploy the code using PHP and Git._
     server SSH key.
  1. Go to `https://bitbucket.org/USERNAME/REPOSITORY/admin/services`.
  1. Add **POST** service.
- 1. Enter the URL to your deployment script e.g. `http://example.com/deploy.php?sat=YourSecretAccessTokenFromDeployFile`.
+ 1. Enter the URL to your deployment script e.g. `http://deployer.example.com/?project=myproject&sat=YourSecretAccessTokenFromDeployFile`.
  1. Click **Save**.
 
 ### Generic Git
@@ -54,16 +54,16 @@ _Automatically deploy the code using PHP and Git._
 ```sh
 #!/bin/sh
 echo "Triggering the code deployment ..."
-wget -q -O /dev/null http://example.com/deploy.php?sat=YourSecretAccessTokenFromDeployFile
+wget -q -O /dev/null http://deployer.example.com/?project=myproject&sat=YourSecretAccessTokenFromDeployFile
 ```
 
 ## Done!
 
 Next time you push the code to the repository that has a hook enabled, it's
-going to trigger the `deploy.php` script which is going to pull the changes and
+going to trigger the `index.php` script which is going to pull the changes and
 update the code on the _server machine_.
 
-For more info, read the source of `deploy.php`.
+For more info, read the source of `index.php`.
 
 ## Tips'n'Tricks
 
@@ -71,11 +71,6 @@ For more info, read the source of `deploy.php`.
    on the same server that the script is running e.g. `define('TARGET_DIR',
    'username@example.com:/full/path/to/target_dir/');` is going to work as long
    as the user has the right SSH keys and access permissions.
- * You can have multiple scripts with different configurations. Simply rename
-   the `deploy.php` to something else, for example `deploy_master.php` and
-   `deploy_develop.php` and configure them separately. In that case, the
-   configuration files need to be named `deploy_master-config.php` and
-   `deploy_develop-config.php` respectively.
 
 ---
 
