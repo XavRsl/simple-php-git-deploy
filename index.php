@@ -11,13 +11,16 @@
 // =========================================[ Configuration start ]===
 
 /**
- * It's preferable to configure the script using `deploy-config.php` file.
+ * You may have a configuration file per project. You must provide a "project" GET variable in your URL
  *
- * Rename `deploy-config.example.php` to `deploy-config.php` and edit the
+ * Rename `exampleproject-config.php` to `myproject-config.php` and edit the
  * configuration options there instead of here. That way, you won't have to edit
  * the configuration again if you download the new version of `deploy.php`.
  */
-if (file_exists(basename(__FILE__, '.php').'-config.php')) require_once basename(__FILE__, '.php').'-config.php';
+if (!isset($_GET['project'])) {
+    header('HTTP/1.0 403 Forbidden');
+}
+if (file_exists($_GET['project'].'-config.php')) require_once $_GET['project'].'-config.php';
 
 /**
  * Protect the script from unauthorized access by using a secret access token.
